@@ -5,7 +5,9 @@ Step 1: npm install
 
 Step 2: npm start
 
-<img src="public/assets/react_crud_gif2.gif" width="80%">
+Step 3: run basic-crud-node-ts for apis.
+
+<img src="public/assets/react_crud_gif.gif" width="80%">
 
 
 
