@@ -9,3 +9,7 @@ Step 2: npm start
 
 <img src="https://github.com/srikarb221/basic-crud-react-hooks-ts/blob/main/public/assets/react_crud_gif.gif" width="80%">
 
+<img src="public/assets/react_crud_gif2.gif" width="80%">
+
+
+
