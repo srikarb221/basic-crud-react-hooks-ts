@@ -21,7 +21,7 @@ const AddEditUser: FC = () => {
         return () => {
             dispatch(formAction(ActionType.RESET_FORM_DATA));
             dispatch(apiAction(ActionType.UPDATE_API_STATE,
-                { errors: { code: '', message: '' } } as IApiState))
+                { errors: { code: '', status: '', message: '' } } as IApiState))
         }
     }, []);
 

@@ -8,7 +8,7 @@ const ErrorToaster: FC<IApiError> = ({ code, message }) => {
     const [showToaster, setShowToaster] = useState(false);
 
     useEffect(() => {
-        const toasterFlag = code && code.length > 0 ? true : false;
+        const toasterFlag = code && code.toString().length > 0 ? true : false;
         setShowToaster(toasterFlag);
     }, [code]);
 
@@ -16,14 +16,13 @@ const ErrorToaster: FC<IApiError> = ({ code, message }) => {
         " me-5 mb-5 show text-white bg-danger border-0";
 
     const toggleClass = showToaster ? ' show' : '';
-    const displayMessage = (message && message.length > 0) ?
-        message : 'Api call failed.';
+
     return (
         <>
             {showToaster && <div className={baseClass + toggleClass} >
                 <div className="d-flex">
                     <div className="toast-body">
-                        {code + " : " + displayMessage}
+                        {code + " : " + message}
                     </div>
                     <button type="button" onClick={() => { setShowToaster(false) }} className="btn-close btn-close-white me-2 m-auto"></button>
                 </div>

@@ -42,6 +42,7 @@ export interface INoPayloadAction {
 
 export interface IApiError {
     code?: string;
+    status?: string;
     message?: string;
 }
 

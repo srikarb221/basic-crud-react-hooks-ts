@@ -13,7 +13,7 @@ const useApiFormUtilsHook = () => {
         const options = { route: 'save', method: 'POST' };
 
         dispatch(apiAction(ActionType.UPDATE_API_STATE,
-            { loading: true, errors: { code: '', message: '' } } as IApiState));
+            { loading: true, errors: { code: '', status: '', message: '' } } as IApiState));
 
         makeApiCall(options, requestData)
             .then((response) => {
@@ -24,8 +24,15 @@ const useApiFormUtilsHook = () => {
                     history.push('/');
                 }
             })
-            .catch((error) => dispatch(apiAction(ActionType.UPDATE_API_STATE,
-                { errors: { code: "500", message: error } } as IApiState)))
+            .catch((error) => {
+                if (error.code) {
+                    dispatch(apiAction(ActionType.UPDATE_API_STATE,
+                        { errors: error } as IApiState));
+                } else {
+                    dispatch(apiAction(ActionType.UPDATE_API_STATE,
+                        { errors: { code: '500', status: 'Error', message: error } } as IApiState));
+                }
+            })
             .finally(() => dispatch(apiAction(ActionType.UPDATE_API_STATE,
                 { loading: false } as IApiState)));
 
@@ -35,7 +42,7 @@ const useApiFormUtilsHook = () => {
         const options = { route: 'update', method: 'PUT' };
 
         dispatch(apiAction(ActionType.UPDATE_API_STATE,
-            { loading: true, errors: { code: '', message: '' } } as IApiState));
+            { loading: true, errors: { code: '', status: '', message: '' } } as IApiState));
 
         makeApiCall(options, requestData)
             .then((response) => {
@@ -46,8 +53,15 @@ const useApiFormUtilsHook = () => {
                     history.push('/');
                 }
             })
-            .catch((error) => dispatch(apiAction(ActionType.UPDATE_API_STATE,
-                { errors: { code: "500", message: error } } as IApiState)))
+            .catch((error) => {
+                if (error.code) {
+                    dispatch(apiAction(ActionType.UPDATE_API_STATE,
+                        { errors: error } as IApiState));
+                } else {
+                    dispatch(apiAction(ActionType.UPDATE_API_STATE,
+                        { errors: { code: '500', status: 'Error', message: error } } as IApiState));
+                }
+            })
             .finally(() => dispatch(apiAction(ActionType.UPDATE_API_STATE,
                 { loading: false } as IApiState)));
 
@@ -57,7 +71,7 @@ const useApiFormUtilsHook = () => {
         const options = { route: 'delete', method: 'DELETE' };
 
         dispatch(apiAction(ActionType.UPDATE_API_STATE,
-            { loading: true, errors: { code: '', message: '' } } as IApiState));
+            { loading: true, errors: { code: '', status: '', message: '' } } as IApiState));
 
         makeApiCall(options, requestData)
             .then((response) => {
@@ -68,8 +82,15 @@ const useApiFormUtilsHook = () => {
                     history.push('/');
                 }
             })
-            .catch((error) => dispatch(apiAction(ActionType.UPDATE_API_STATE,
-                { errors: { code: "500", message: error } } as IApiState)))
+            .catch((error) => {
+                if (error.code) {
+                    dispatch(apiAction(ActionType.UPDATE_API_STATE,
+                        { errors: error } as IApiState));
+                } else {
+                    dispatch(apiAction(ActionType.UPDATE_API_STATE,
+                        { errors: { code: '500', status: 'Error', message: error } } as IApiState));
+                }
+            })
             .finally(() => dispatch(apiAction(ActionType.UPDATE_API_STATE,
                 { loading: false } as IApiState)));
     };
@@ -77,17 +98,33 @@ const useApiFormUtilsHook = () => {
     const fetchFormData = useCallback((dispatch: IAppDispatch) => () => {
         const options = { route: 'fetch', method: 'GET' };
         dispatch(apiAction(ActionType.UPDATE_API_STATE,
-            { loading: true, errors: { code: '', message: '' } } as IApiState));
+            { loading: true, errors: { code: '', status: '', message: '' } } as IApiState));
 
         makeApiCall(options)
             .then((response) => response.json())
             .then((data) => {
-                dispatch(apiAction(ActionType.UPDATE_API_STATE,
-                    { data } as IApiState));
+                if (data.code === 200) {
+                    dispatch(apiAction(ActionType.UPDATE_API_STATE,
+                        { data: data.data } as IApiState));
+                } else {
+                    dispatch(apiAction(ActionType.UPDATE_API_STATE,
+                        {
+                            errors: {
+                                code: data.code,
+                                status: data.status,
+                                message: data.message
+                            }
+                        } as IApiState));
+                }
             })
             .catch((error) => {
-                dispatch(apiAction(ActionType.UPDATE_API_STATE,
-                    { errors: { code: "500", message: error } } as IApiState));
+                if (error.code) {
+                    dispatch(apiAction(ActionType.UPDATE_API_STATE,
+                        { errors: error } as IApiState));
+                } else {
+                    dispatch(apiAction(ActionType.UPDATE_API_STATE,
+                        { errors: { code: '500', status: 'Error', message: error } } as IApiState));
+                }
             })
             .finally(() => {
                 dispatch(apiAction(ActionType.UPDATE_API_STATE,

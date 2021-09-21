@@ -5,6 +5,7 @@ export const apiState = {
     loading: false,
     errors: {
         code: '',
+        status: '',
         message: ''
     },
     data: null
